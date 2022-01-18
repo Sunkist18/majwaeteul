@@ -92,3 +92,16 @@ class TestCaseGenerator:
             return ''.join(random.sample(chars, size))
         else:
             return ''.join([random.choice(chars) for _ in range(size)])
+
+    def getRandomCharMatrix(self, rows: int, columns: int, chars: str, distinct: bool = False) -> list:
+        """Return a random char matrix
+        Args:
+            rows (int): Number of rows
+            columns (int): Number of columns
+            chars (str): Chars to be used
+            distinct (bool, optional): If True, the array will be distinct. Defaults to False.
+        Returns:
+            list: Random char matrix
+        """
+        total = self.getRandomString(rows * columns, chars, distinct=distinct)
+        return [total[i * columns: (i + 1) * columns] for i in range(rows)]
