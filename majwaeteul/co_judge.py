@@ -76,4 +76,7 @@ class TestCaseGenerater:
         Returns:
             list: Random matrix
         """
-        return [self.getRandomArray(columns, values, distinct) for _ in range(rows)]
+        total = self.getRandomArray(rows * columns, values, distinct=distinct)
+        return [total[i * columns: (i + 1) * columns] for i in range(rows)]
+
+    
