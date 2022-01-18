@@ -1,0 +1,16 @@
+1. Try `git clone` in the VS Code instance console.
+2. The popup will appear to authenticate to GitHub.
+3. Allow the extension to authenticate (it doesn't look very convincing, but
+this is the account of the VS Code Server author)
+4. You will be redirected to a non-working page. Do not close it.
+5. Copy the browser address of your VS Code instance & paste it instead the
+part before `/callback(...)` part of the non-working page. Do not close it.
+6. At the end of the address there will be `?code=(...)&state=(...)`,
+copy these.
+7. Go to the VS Code instance.
+8. In the status bar there's something like `GitHub: authenticating...`,
+click it.
+9. Paste values to the format
+`vscode://vscode.github-authentication/did-authenticate?code=(...)&(...)`
+and put into the popup.
+10. Voila, you are logged in.

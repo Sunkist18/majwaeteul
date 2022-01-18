@@ -86,4 +86,4 @@ class Problem:
             assert arr_pair_size <= size, 'cannot generate distinct array'
             return sample(result, arr_pair_size)
         # if not is_distint
-        return result
+        return [sample(result, 1)[0] for _ in range(arr_pair_size)]
