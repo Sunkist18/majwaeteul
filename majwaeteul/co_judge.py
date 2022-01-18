@@ -106,26 +106,69 @@ class TestCaseGenerator:
         total = self.getRandomString(rows * columns, chars, distinct=distinct)
         return [list(total[i * columns: (i + 1) * columns]) for i in range(rows)]
 
-    def getUnweightedTree(self, size: int, nodes: int, index_from: int) -> list:
-        """Return a unweighted tree
+    def getRandomUnweightedTree(self, size: int, start_index: int) -> list:
+        """Return a random unweighted tree
         Args:
             size (int): Size of the tree
-            nodes (int): Number of nodes
-            index_from (int): Index of the first node
         Returns:
-            list: Unweighted tree
+            list: Random unweighted tree
         """
-        return self.getRandomPairArray(size, range(index_from, index_from + nodes), range(index_from, index_from + nodes), pair_distinct=True)
+        edges = []
+        for start in range(start_index, start_index + size):
+            for end in range(start_index, start_index + size):
+                if start != end:
+                    cost = self.getRandomNumber(range(int(1e9)))
+                    edges.append([start, end, cost])
+                    edges.append([end, start, cost])
+        return self.Kruskal(edges)
 
-    def getWeightedTree(self, size: int, nodes: int, weight: list, index_from: int) -> list:
-        """Return a weighted tree
+    def Kruskal(self, edges: list) -> list:
+        """Return a minimum spanning tree
         Args:
-            size (int): Size of the tree
-            nodes (int): Number of nodes
-            weight (list): Weight of each node
-            index_from (int): Index of the first node
+            edges (list): List of edges
         Returns:
-            list: Weighted tree
+            list: Minimum spanning tree
         """
-        unweightedTree = self.getUnweightedTree(size, nodes, index_from)
-        return [[unweightedTree[i][0], unweightedTree[i][1], self.getRandomNumber(weight)] for i in range(size)]
+        edges.sort(key=lambda x: x[2])
+
+        parent = [i for i in range(len(edges) + 1)]
+        mst = []
+
+        for edge in edges:
+            if self.merge(edge[0], edge[1], parent):
+                mst.append([edge[0], edge[1]])
+        return mst
+
+    def find(self, x: int, parent: list) -> int:
+        """Return a parent of x
+        Args:
+            x (int): Node
+            parent (list): Parent list
+        Returns:
+            int: Parent of x
+        """
+        if parent[x] == x:
+            return x
+        else:
+            return self.find(parent[x], parent)
+
+    def merge(self, x: int, y: int, parent: list) -> bool:
+        """Merge two nodes
+        Args:
+            x (int): Node
+            y (int): Node
+            parent (list): Parent list
+        Returns:
+            bool: If merge is successful
+        """
+        x = self.find(x, parent)
+        y = self.find(y, parent)
+
+        if x < y:
+            x, y = y, x
+
+        if x == y:
+            return False
+        else:
+            parent[x] = y
+            return True
