@@ -50,7 +50,7 @@ class TestCaseGenerator:
         pairs = []
         for x in x_values:
             for y in y_values:
-                pairs.append((x, y))
+                pairs.append([x, y])
         # remove pairs that are not order
         if order == 1:
             pairs = [pair for pair in pairs if pair[0] < pair[1]]
@@ -104,4 +104,28 @@ class TestCaseGenerator:
             list: Random char matrix
         """
         total = self.getRandomString(rows * columns, chars, distinct=distinct)
-        return [total[i * columns: (i + 1) * columns] for i in range(rows)]
+        return [list(total[i * columns: (i + 1) * columns]) for i in range(rows)]
+
+    def getUnweightedTree(self, size: int, nodes: int, index_from: int) -> list:
+        """Return a unweighted tree
+        Args:
+            size (int): Size of the tree
+            nodes (int): Number of nodes
+            index_from (int): Index of the first node
+        Returns:
+            list: Unweighted tree
+        """
+        return self.getRandomPairArray(size, range(index_from, index_from + nodes), range(index_from, index_from + nodes), pair_distinct=True)
+
+    def getWeightedTree(self, size: int, nodes: int, weight: list, index_from: int) -> list:
+        """Return a weighted tree
+        Args:
+            size (int): Size of the tree
+            nodes (int): Number of nodes
+            weight (list): Weight of each node
+            index_from (int): Index of the first node
+        Returns:
+            list: Weighted tree
+        """
+        unweightedTree = self.getUnweightedTree(size, nodes, index_from)
+        return [[unweightedTree[i][0], unweightedTree[i][1], self.getRandomNumber(weight)] for i in range(size)]
