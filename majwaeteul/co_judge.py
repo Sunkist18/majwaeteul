@@ -1,7 +1,7 @@
 import random
 
 
-class TestCaseGenerater:
+class TestCaseGenerator:
     def __init__(self, problem_id: int):
         self.problem_id = problem_id
 
@@ -79,4 +79,16 @@ class TestCaseGenerater:
         total = self.getRandomArray(rows * columns, values, distinct=distinct)
         return [total[i * columns: (i + 1) * columns] for i in range(rows)]
 
-    
+    def getRandomString(self, size: int, chars: str, distinct: bool = False) -> str:
+        """Return a random string
+        Args:
+            size (int): Size of the string
+            chars (str): Chars to be used
+            distinct (bool, optional): If True, the string will be distinct. Defaults to False.
+        Returns:
+            str: Random string
+        """
+        if distinct:
+            return ''.join(random.sample(chars, size))
+        else:
+            return ''.join([random.choice(chars) for _ in range(size)])
