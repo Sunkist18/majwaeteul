@@ -1,0 +1,4 @@
+.vscode
+*.txt
+github.py
+__pycache__
